@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Echo Test</h1>
+    <input type="text" id="sendTxt" />
+    <button class="sendBtn">发送</button>
+    <div class="showTxt">123</div>
+
+    <script>
+            var websocket = new WebSocket("ws://echo.websocket.org/");
+            var showArea = document.querySelector('.showTxt'),
+                sendTxt = document.querySelector('#sendTxt'),
+                sendBtn = document.querySelector('.sendBtn');
+            websocket.onopen = function () {
+                showArea.innerHTML = 'Connected';
+            };
+            websocket.onclose = function () {
+                console.log('websocket closed.')
+            };
+            websocket.onmessage = function (e) {
+                console.log(e);
+                showArea.innerHTML = e.data;
+            };
+            sendBtn.onclick = function () {
+                websocket.send(sendTxt.value);
+            };
+    </script>
+</body>
+</html>
